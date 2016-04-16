@@ -69,13 +69,14 @@ static int __init sample_char_device_init(void)
 
 	ret = alloc_chrdev_region(&sample_devt, 0, SAMPLE_CHAR_DEVS, name);
 	if (ret != 0) {
-		pr_warning("alloc_chrdev_region() failed.");
+		pr_err("alloc_chrdev_region() failed.");
 		goto err_out;
 	}
 
 	sample_cdev = cdev_alloc();
 	if (!sample_cdev) {
-		pr_warning("cdev_alloc() failed.");
+		pr_err("cdev_alloc() failed.");
+		ret = -ENODEV;
 		goto err_out_reg;
 	}
 
@@ -85,20 +86,22 @@ static int __init sample_char_device_init(void)
 
 	ret = cdev_add(sample_cdev, sample_devt, SAMPLE_CHAR_DEVS);
 	if (ret) {
-		pr_warning("cdev_add() failed.");
+		pr_err("cdev_add() failed.");
 		goto err_out_alloc;
 	}
 
 	sample_class = class_create(THIS_MODULE, "sample_char_class");
 	if (IS_ERR(sample_class)) {
-		pr_warning("class_create() failed.");
+		pr_err("class_create() failed.");
+		ret = PTR_ERR(sample_class);
 		goto err_out_alloc;
 	}
 	sample_class->devnode = sample_class_devnode;
 
 	dev = device_create(sample_class, NULL, sample_devt, NULL, "sample_char_dev");
 	if (IS_ERR(dev)) {
-		pr_warning("device_create() failed.");
+		pr_err("device_create() failed.");
+		ret = PTR_ERR(dev);
 		goto err_out_class;
 	}
 
