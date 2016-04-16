@@ -33,5 +33,10 @@ Do insmod and rmmod.
     # insmod sample-char-dev.ko
     sample_char: loaded.
     
+    # echo hoge > /dev/sample_char/sample_char_dev
+    sample_char: open.
+    sample_char: write 5 bytes.
+    sample_char: release.
+    
     # rmmod sample_char_dev
     sample_char: unloaded.
