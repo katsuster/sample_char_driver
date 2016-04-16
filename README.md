@@ -19,18 +19,19 @@ Build this sample.
 
     $ cd sample_char_driver
     $ make
-    make ARCH=x86_64 CROSS_COMPILE= -C /usr/src/linux M=/home/user/sample_platform_bus_driver LDDINC=/home/user/sample_platform_bus_driver modules
+    make ARCH=x86_64 CROSS_COMPILE= -C /usr/src/linux M=/home/user/sample_platform_bus_driver LDDINC=/home/user/sample_char_driver modules
     make[1]: Entering directory '/usr/src/linux'
-      CC [M]  /home/katsuhiro/share/projects/c/sample_platform_bus_driver/plat-device.o
-      CC [M]  /home/katsuhiro/share/projects/c/sample_platform_bus_driver/plat-utils.o
+      CC [M]  /home/user/sample_char_driver/char-device.o
+      CC [M]  /home/user/sample_char_driver/char-utils.o
       ...
-      CC      /home/katsuhiro/share/projects/c/sample_platform_bus_driver/sample-plat-drv.mod.o
-      LD [M]  /home/katsuhiro/share/projects/c/sample_platform_bus_driver/sample-plat-drv.ko
+      CC      /home/user/sample_char_driver/sample-char-dev.mod.o
+      LD [M]  /home/user/sample_char_driver/sample-char-dev.ko
     make[1]: Leaving directory '/usr/src/linux'
 
 Do insmod and rmmod.
 
-    # insmod sample-plat-dev.ko
+    # insmod sample-char-dev.ko
+    sample_char: loaded.
     
-    # rmmod sample-char-dev
-    sample_platform: unloaded.
+    # rmmod sample_char_dev
+    sample_char: unloaded.
